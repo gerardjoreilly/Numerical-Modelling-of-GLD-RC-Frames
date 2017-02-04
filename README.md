@@ -4,7 +4,7 @@ This repository contains the OpenSees model described in Section 4.2 of O'Reilly
 
 The different tools outlined throughout O'Reilly and Sullivan [2017] to model the behaviour of the beam-column elements in addition to the beam-column joints are included here and their use illustrated. This way users can adopt the proposed numerical modelling approach proposed by the authors using single procedure commands within OpenSees.
 
-References:
+## References:
 
 Calvi, G. M., Magenes, G., Pampanin, S. [2002] “Experimental Test on a Three Storey RC Frame Designed for Gravity Only,” 12th European Conference on Earthquake Engineering, London, UK.
 
