@@ -80,7 +80,7 @@ set rB5_top 0.00542656015831134; 	set rB5_web 0; 	set rB5_bot 0.0035481354881266
 # Joint Properties (See O'Reilly [2016] for experimental calibration of various coefficients)
 set k_cr_int 	0.29;		set k_pk_int 	0.42;		set k_ult_int 	0.42; 	# Interior beam-column joints principle tensile stress coefficients (kappa)
 set k_cr_ext 	0.132; 	set k_pk_ext 	0.132;	set k_ult_ext 	0.053;	# Exterior beam-column joints principle tensile stress coefficients (kappa)
-set gamm_cr		0.0002;	set gamm_pk		0.0132;	set gamm_ult	0.0270;	# Beam-column joint shear deformations (gamma)
+set gamm_cr		0.0002;	set gamm_pk		0.0132;	set gamm_ult	0.020;	# Beam-column joint shear deformations (gamma)
 set ptc_int 	[list $k_cr_int $k_pk_int $k_ult_int $k_cr_int $k_pk_int $k_ult_int];
 set ptc_ext 	[list $k_cr_ext $k_pk_ext $k_ult_ext $k_cr_ext $k_pk_ext $k_ult_ext];
 set gamm_ext 	[list $gamm_cr $gamm_pk $gamm_ult $gamm_cr $gamm_pk $gamm_ult];

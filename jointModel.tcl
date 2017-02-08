@@ -135,13 +135,21 @@ if {$jtype!="Elastic"} {
 	uniaxialMaterial Elastic 3${index} [expr [lindex $MjX 0]/[lindex $gamm 0]]
 	uniaxialMaterial Elastic 4${index} [expr [lindex $MjY 0]/[lindex $gamm 0]]
 }
+
+# ----------------------------------------------------------------------------------------------
+# -- Implement the MaxMin Limits  -----------
+# ----------------------------------------------------------------------------------------------
+set gamm_max 0.100; # Use a higher limit for now, needs to be updated later
+uniaxialMaterial MinMax 5${index} 3${index} -min -$gamm_max -max $gamm_max
+uniaxialMaterial MinMax 6${index} 4${index} -min -$gamm_max -max $gamm_max
+
 # ----------------------------------------------------------------------------------------------
 # -- Create the ZL elements  -----------
 # ----------------------------------------------------------------------------------------------
 set rigM 	1${index}
 set axM 	2${index}
-set flXM	3${index}
-set flYM	4${index}
+set flXM	5${index}
+set flYM	6${index}
 set ET	9${index}
 element zeroLength $ET 1${index} 6${index} -mat $rigM  $rigM  $axM  $flYM $flXM $rigM  -dir 1 2 3 4 5 6 -doRayleigh 1
 # ----------------------------------------------------------------------------------------------

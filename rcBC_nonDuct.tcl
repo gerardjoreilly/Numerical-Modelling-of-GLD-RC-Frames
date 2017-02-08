@@ -44,6 +44,8 @@ proc MomentCurvature {index h b cv dbL dbV fc Ec P fyL Es rho1 rho2 rho3 {pflag 
 # --------------------------------------------------------
 upvar Myp${index} Mp
 upvar Myn${index} Mn
+upvar cp${index} cp
+upvar cn${index} cn
 # --------------------------------------
 # -- Compute Some General Stuff   ------
 # --------------------------------------
@@ -112,7 +114,7 @@ while {$err > 0.001 && $count < 1000 } {
 }
 # Compute the moment
 set Mp [expr $P*(0.5*$h-$c)+$Fs1*($c-$d1)+$Fs3*($d3-$c)+$Fs2*($d2-$c)+$Fc*$c*(1-$b1/2)];
-
+set cp $c
 
 # Negative Bending
 set c 		[expr $h/2]; 				# initial trial of NA depth (m)
@@ -162,7 +164,7 @@ while {$err > 0.001 && $count < 1000 } {
 }
 # Compute the moment
 set Mn [expr $P*(0.5*$h-$c)+$Fs1*($c-$d1)+$Fs3*($d3-$c)+$Fs2*($d2-$c)+$Fc*$c*(1-$b1/2)];
-
+set cn $c
 # set Myp${index} $Mp
 # set Myn${index} $Mn
 
@@ -335,10 +337,14 @@ set phiCyy	[expr $phiUyy+(0.2*1.077*$phiYyy)/$app];
 # --------------------------------------
 # -- Compute the Exhaustion Curvature --
 # --------------------------------------
-# This is not actually implemeneted here so is set to 100x for now. Some other
-# limiting curvature could be inserted here in the future.
-set phi0zz	[expr 100*$phiYzz];
-set phi0yy	[expr 100*$phiYyy];
+# This is computed based on an ultimate strain of the rebar. This is
+# conservatively taken to be 0.08, based on p141 of Priestley et al. [2007],
+# and the corresponding curvature computed.
+
+# Only the reinforcement fracture is checked here as this is anticipated
+# to be more critical
+set phi0zz	[expr 0.08/($dzz-$cp1zz)];
+set phi0yy	[expr 0.08/($dyy-$cp1yy)];
 
 # --------------------------------------
 # -- Compute the Maximum Capacity ------
@@ -412,7 +418,7 @@ if {$ST>0} {
 	set gamm_mzz [expr $gamm_uzz+$gamm_tppzz];
 	set V_resyy [expr $V_cyy*(1-$Sppyy*$gamm_tppyy)];
 	set V_reszz [expr $V_czz*(1-$Sppzz*$gamm_tppzz)];
-	if {$V_resyy <=0} {set V_resyy [expr 0.1*$V_cyy]; set gamm_tppyy [expr 1/$Sppyy]; set gamm_myy [expr $gamm_uyy+$gamm_tppyy];}; # Put 10% residual strength since OpenSees can't handle zero strength (Get error about not being able to invert section flexibility)
+	if {$V_resyy <=0} {set V_resyy [expr 0.1*$V_cyy]; set gamm_tppyy [expr 1/$Sppyy]; set gamm_myy [expr $gamm_uyy+$gamm_tppyy];}; # Put 10% residual strength since OpenSees can't handle zero strength (Get error about not being able to invert section flexibility) This doesn't actually matter beceause we cut the response off with the MaxMin material after the V_res point, we just need to define a point for teh backbone.
 	if {$V_reszz <=0} {set V_reszz [expr 0.1*$V_czz]; set gamm_tppzz [expr 1/$Sppzz]; set gamm_mzz [expr $gamm_uzz+$gamm_tppzz];}
 }
 # --------------------------------------
@@ -432,6 +438,7 @@ if {$pflag==1} {
 	puts [format "phiYzz: %.4f rad/m phiYyy: %.4f rad/m" $phiYzz $phiYyy];
 	puts [format "phiCzz: %.4f rad/m phiCyy: %.4f rad/m" $phiCzz $phiCyy];
 	puts [format "phiUzz: %.4f rad/m phiUyy: %.4f rad/m" $phiUzz $phiUyy];
+	puts [format "phi0zz: %.4f rad/m phi0yy: %.4f rad/m" $phi0zz $phi0yy];
 
 	puts [format "phiMp1zz: %.4f rad/m phiMp2zz: %.4f rad/m phiMp1yy: %.4f rad/m phiMp2yy: %.4f rad/m" $phiMp1zz $phiMp2zz $phiMp1yy $phiMp2yy];
 	puts [format "phiMn1zz: %.4f rad/m phiMn2zz: %.4f rad/m phiM1nyy: %.4f rad/m phiMn2yy: %.4f rad/m" $phiMn1zz $phiMn2zz $phiMn1yy $phiMn2yy];
@@ -529,27 +536,32 @@ if {$ST>0} {
 	set gammaEV 0.0
 	set damV "energy"
 	# add the material to domain through the use of a procedure
-	set hingeShTagyy 109${ET}; # Create an nonlinear material for the shear hinge to be aggregated to the actual PH
-	set hingeShTagzz 110${ET}; # Create an nonlinear material for the shear hinge to be aggregated to the actual PH
+	set ohingeShTagyy 109${ET};
+	set ohingeShTagzz 110${ET};
+	set hingeShTagyy 111${ET}; # Create an nonlinear material for the shear hinge to be aggregated to the actual PH
+	set hingeShTagzz 112${ET}; # Create an nonlinear material for the shear hinge to be aggregated to the actual PH
 
-	procUniaxialPinching $hingeShTagyy $pV1yy $nV1yy $pShr1yy $nShr1yy $rDispV $rForceV $uForceV $gammaKV $gammaDV $gammaFV $gammaEV $damV
-	procUniaxialPinching $hingeShTagzz $pV1zz $nV1zz $pShr1zz $nShr1zz $rDispV $rForceV $uForceV $gammaKV $gammaDV $gammaFV $gammaEV $damV
-	# uniaxialMaterial Elastic $hingeShTag $GA0
+	procUniaxialPinching $ohingeShTagyy $pV1yy $nV1yy $pShr1yy $nShr1yy $rDispV $rForceV $uForceV $gammaKV $gammaDV $gammaFV $gammaEV $damV
+	procUniaxialPinching $ohingeShTagzz $pV1zz $nV1zz $pShr1zz $nShr1zz $rDispV $rForceV $uForceV $gammaKV $gammaDV $gammaFV $gammaEV $damV
+
+	# Implement the MaxMin model to cut off response at the axial failure point
+	uniaxialMaterial MinMax $hingeShTagyy $ohingeShTagyy -min -$gamm_myy -max $gamm_myy
+	uniaxialMaterial MinMax $hingeShTagzz $ohingeShTagzz -min -$gamm_mzz -max $gamm_mzz
 }
 # --------------------------------------
 # -- Create the Element  ---------------
 # --------------------------------------
-set intTag 		111${ET};	# Internal elastic section tag
-set fTag1zz 	112${ET}; 	# Section tag Mz 1
-set fTag2zz 	113${ET}; 	# Section tag Mz 2
-set fTag1yy 	114${ET}; 	# Section tag My 1
-set fTag2yy 	115${ET}; 	# Section tag My 2
-set phTag1  	116${ET}; 	# Create an aggregated section with this tag for the actual element
-set phTag2  	117${ET}; 	# Create an aggregated section with this tag for the actual element
-set tempTag		118${ET};	# temporary section tag to be used in creating bidirectional response
+set intTag 		112${ET};	# Internal elastic section tag
+set fTag1zz 	113${ET}; 	# Section tag Mz 1
+set fTag2zz 	114${ET}; 	# Section tag Mz 2
+set fTag1yy 	115${ET}; 	# Section tag My 1
+set fTag2yy 	116${ET}; 	# Section tag My 2
+set phTag1  	117${ET}; 	# Create an aggregated section with this tag for the actual element
+set phTag2  	118${ET}; 	# Create an aggregated section with this tag for the actual element
+set tempTag		119${ET};	# temporary section tag to be used in creating bidirectional response
 
 # Create the internal elastic element behaviour with cracked section properties
-section Elastic $intTag [expr $Ec*$MPa] $Ag $Izze $Iyye $Gc 0.001
+section Elastic $intTag [expr $Ec*$MPa] $Ag $Izze $Iyye $Gc $J
 
 # Create the plastic hinge section
 section Uniaxial $fTag1zz $hingeMTag1zz Mz; 							# Create the PH flexural section about zz
