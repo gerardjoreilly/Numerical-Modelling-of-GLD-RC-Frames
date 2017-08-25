@@ -4,7 +4,8 @@ This repository contains the OpenSees model described in Section 4.2 of O'Reilly
 
 The different tools outlined throughout O'Reilly and Sullivan [2017] to model the behaviour of the beam-column elements in addition to the beam-column joints are included here and their use illustrated. This way users can adopt the proposed numerical modelling approach proposed by the authors using single procedure commands within OpenSees.
 
-If you use any of the files included in this respoitory, please cite as:
+If you use any of the files included in this repository, please cite as:
+
 O’Reilly, G. J., Sullivan, T. J. [2017] “Modelling Techniques for the Seismic Assessment of Existing Italian RC Frame Structures,” Journal of Earthquake Engineering, DOI:10.1080/13632469.2017.1360224.
 
 ## References:
