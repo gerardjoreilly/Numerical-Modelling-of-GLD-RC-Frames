@@ -12,8 +12,7 @@ O’Reilly, G. J., Sullivan, T. J. [2017] “Modelling Techniques for the Seismi
 
 Calvi, G. M., Magenes, G., Pampanin, S. [2002] “Experimental Test on a Three Storey RC Frame Designed for Gravity Only,” 12th European Conference on Earthquake Engineering, London, UK.
 
-<<<<<<< HEAD
-O’Reilly, G. J., Sullivan, T. J. [2017] “Modelling Techniques for the Seismic Assessment of Existing Italian RC Frame Structures,” Journal of Earthquake Engineering, (Under Review).
+O’Reilly, G. J., Sullivan, T. J. [2017] “Modelling Techniques for the Seismic Assessment of Existing Italian RC Frame Structures,” Journal of Earthquake Engineering, DOI:10.1080/13632469.2017.1360224.
 
 # Licensing
 Copyright (C) 2017  Gerard J. O'Reilly
@@ -22,6 +21,3 @@ All of these programs are copyrighted under the GNU General Public License as pu
 
 # Disclaimer
 These programs are distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-=======
-O’Reilly, G. J., Sullivan, T. J. [2017] “Modelling Techniques for the Seismic Assessment of Existing Italian RC Frame Structures,” Journal of Earthquake Engineering, DOI:10.1080/13632469.2017.1360224.
->>>>>>> origin/master
