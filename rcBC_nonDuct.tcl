@@ -573,9 +573,9 @@ section Aggregator $phTag2 $hingeMTag2yy My -section $fTag2zz;		# Aggregate Myy 
 
 # Set the integration scheme (Read through Scott & Fenves [2006] JStructE Paper)
 # set integration "HingeMidpoint $phTag1 $Lp $phTag2 $Lp $intTag"
-# set integration "HingeEndpoint $phTag1 $Lp $phTag2 $Lp $intTag"
+set integration "HingeEndpoint $phTag1 $Lp $phTag2 $Lp $intTag"
 # set integration "HingeRadauTwo $phTag1 $Lp $phTag2 $Lp $intTag"
-set integration "HingeRadau $phTag1 $Lp $phTag2 $Lp $intTag"; # This scheme satisfies all 3 criteria by Scott & Fenves [2006]
+# set integration "HingeRadau $phTag1 $Lp $phTag2 $Lp $intTag"; # This scheme satisfies all 3 criteria by Scott & Fenves [2006]
 
 if {$ST<1} {
 	# Create the element without any shear spring
