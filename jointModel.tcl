@@ -1,10 +1,10 @@
 # ----------------------------------------------------------------------------------------------
 # -- Script of OpenSees Procedures to Create Beam-Column Joints --------------------------------
 # ----------------------------------------------------------------------------------------------
-# Copyright by Gerard J. O'Reilly, 2017
+# Copyright by Gerard J. O'Reilly, 2019
 # IUSS Pavia, Italy
 # Created: February 2015
-# Last Updated: September 2015
+# Last Updated: November 2019
 #
 # The procedure also requires MPa units to be specified in the units file.
 #
@@ -28,8 +28,9 @@
 # if doing some form of parameter study.
 
 # References:
-# O’Reilly, G. J. [2016] “Performance-Based Seismic Assessment and Retrofit of
-# Existing RC Frame Buildings in Italy,” PhD Thesis, IUSS Pavia, Italy.
+# O’Reilly, G. J., Sullivan, T. J. [2019] “Modeling Techniques for the Seismic Assessment
+# of the Existing Italian RC Frame Structures,” Journal of Earthquake Engineering, Vol.
+# 23, No.8, pp. 1262–1296 DOI: 10.1080/13632469.2017.1360224.
 
 # ----------------------------------------------------------------------------------------------
 

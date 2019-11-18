@@ -1,10 +1,10 @@
 # -----------------------------------------------------------------------------------------
 # -- Script to Create a Lumped Plasticity Element for RC Beam Columns w/ smooth bars ------
 # -----------------------------------------------------------------------------------------
-# Copyright by Gerard J. O'Reilly, 2017
+# Copyright by Gerard J. O'Reilly, 2019
 # IUSS Pavia, Italy
 # Created: November 2014
-# Last Updated: February 2016
+# Last Updated: November 2019
 #
 #
 # This script contains two function that create a 3D beam column element with lumped plasticity.
@@ -24,8 +24,9 @@
 #
 #
 # References:
-# O’Reilly, G. J. [2016] “Performance-Based Seismic Assessment and Retrofit
-# of Existing RC Frame Buildings in Italy,” PhD Thesis, IUSS Pavia, Italy.
+# O’Reilly, G. J., Sullivan, T. J. [2019] “Modeling Techniques for the Seismic Assessment
+# of the Existing Italian RC Frame Structures,” Journal of Earthquake Engineering, Vol.
+# 23, No.8, pp. 1262–1296 DOI: 10.1080/13632469.2017.1360224.
 #
 # Zimos, D. K., Mergos, P. E., Kappos, A. J. [2015] “Shear Hysteresis Model
 # for Reinforced Concrete Elements Including the Post-Peak Range,” COMPDYN
@@ -577,7 +578,7 @@ section Aggregator $phTag2 $hingeMTag2yy My -section $fTag2zz;		# Aggregate Myy 
 set integration "HingeRadau $phTag1 $Lp $phTag2 $Lp $intTag"; # This scheme satisfies all 3 criteria by Scott & Fenves [2006]
 
 if {$ST<1} {
-	# Create the element without anyy shear spring
+	# Create the element without any shear spring
 
 	# element forceBeamColumn $eleTag $iNode $jNode $transfTag $integration <-mass $massDens> <-iter $maxIters $tol>
 	element forceBeamColumn $ET $iNode $jNode $GT $integration -iter 100 1e-12

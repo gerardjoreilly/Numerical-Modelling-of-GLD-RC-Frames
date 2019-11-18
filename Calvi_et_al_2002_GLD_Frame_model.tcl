@@ -10,9 +10,10 @@
 # Calvi, G. M., Magenes, G., Pampanin, S. [2002] “Experimental Test on a
 # Three Storey RC Frame Designed for Gravity Only,” 12th European
 # Conference on Earthquake Engineering, London, UK.
-#
-# O’Reilly, G. J. [2016] “Performance-Based Seismic Assessment and Retrofit
-# of Existing RC Frame Buildings in Italy,” PhD Thesis, IUSS Pavia, Italy.
+
+# O’Reilly, G. J., Sullivan, T. J. [2019] “Modeling Techniques for the Seismic Assessment
+# of the Existing Italian RC Frame Structures,” Journal of Earthquake Engineering, Vol.
+# 23, No.8, pp. 1262–1296 DOI: 10.1080/13632469.2017.1360224.
 
 wipe; # Before starting anything, wipe everything
 
@@ -30,10 +31,11 @@ model basic -ndm 3 -ndf 6
 # --------------------------------------
 # Load some scripts
 # --------------------------------------
-source Units.tcl
-source rcBC_nonDuct.tcl
-source cyclicPush.tcl
+# These following two files are in another repository
+source OpenSees-Procedures/Units.tcl
+source OpenSees-Procedures/cyclicPush.tcl
 source jointModel.tcl
+source rcBC_nonDuct.tcl
 
 # --------------------------------------
 # Define some basic model parameters
